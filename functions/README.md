@@ -22,7 +22,7 @@ Your Oracle Linux instance is now running, and ready to be configured to host yo
 While connected to your Oracle Linux instance, run the following commands to install and configure the Docker container runtime.
 
 ```
-sudo yum install docker-engine -y
+sudo yum -y install docker-engine-18.03.1.ol-0.0.9.el7.x86_64 -y
 sudo usermod -aG docker opc
 sudo systemctl enable docker
 sudo systemctl start docker
@@ -82,7 +82,7 @@ This will create a simple function in the directory hello, so let's cd into it:
 Now you can call your function locally using curl:
 
 ```
-curl http://localhost:8080/t/codecard/hello-trigger
+curl http://localhost:8080/t/codecard/hello
 ```
 
 or, using the fn client:
