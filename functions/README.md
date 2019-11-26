@@ -156,7 +156,7 @@ Now deploy your new function
 
 And test on your browser
 
-	http://`linux-instance-public-ip`:8080/t/codecard/button1-trigger
+	http://`linux-instance-public-ip`:8080/t/codecard/button1
 
 Now you are ready to configure your Code Card to point to your new function! Go to the [Code Card Teminal](https://github.com/cameronsenese/codecard/tree/master/terminal) page to learn how to configure your Card using serial communication.
 
