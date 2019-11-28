@@ -158,5 +158,89 @@ And test on your browser
 
 	http://`linux-instance-public-ip`:8080/t/codecard/button1
 
-Now you are ready to configure your Code Card to point to your new function! Go to the [Code Card Teminal](https://github.com/cameronsenese/codecard/tree/master/terminal) page to learn how to configure your Card using serial communication.
+Now you are ready to configure your Code Card to point to your new function!
 
+### Configure CodeCard
+In this example, we will program the `shortpress` action for button `B` on the card.
+
+#### Establish serial connection with CodeCard
+In order to configure our CodeCard, we need to establish a serial connection over USB to the CodeCard CLI. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#connect-via-terminal-emulator) to establish the serial over USB connection. Remember to ensure that the CodeCard WiFi settings are configure correctly also! (Direction available from the referenced guide).
+
+#### Configure `buttonb1` button action
+*In the CodeCard CLI, `buttonb1` correlates to button B shortpress action.*
+
+In your terminal session you should now see the CodeCard CLI Menu, as follows.
+```bash
+***************************************************************************************
+  Code Card v1.0
+  Oracle Groundbreakers
+  developer.oracle.com/codecard
+***************************************************************************************
+Commands:
+  ls                Show all stored key/values
+  help              Show this help
+  shortpress[a|b]   Simulate the press of a button
+  longpress[a|b]    Simulate the long press of a button
+  connect           Connect to wifi
+  disconnect        Disconnect wifi
+  restart           Restart wifi
+  status            Show wifi status
+  home              Show home screen
+  reset             Reset to factory settings
+
+Usage:
+  Read saved key value:
+    key
+  Save new key value:
+    key=[value]
+
+Available keys:
+  ssid, password, buttona1, buttona2, buttonb1, buttonb2, fingerprinta1, fingerprinta2,
+  fingerprintb1, fingerprintb2, methoda1, methoda2, methodb1, methodb2,
+>>>
+```
+
+First, we will set the HTTP method for the B shortpress by entering the following command.
+*Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.*
+```bash
+methodb1=GET
+```
+
+CodeCard will confirm setting update as follows.
+```bash
+>>>
+Value saved for methodb1: GET
+>>>
+```
+
+Next configure the HTTP endpoint for the B shortpress by entering the following command. Be sure to substitute values in `<brackets>` as appropriate.
+```bash
+buttonb1=http://`linux-instance-public-ip`:8080/t/codecard/button1
+```
+
+CodeCard will confirm setting update as follows.
+```bash
+>>>
+Value saved for buttonb1: http://`linux-instance-public-ip`:8080/t/codecard/button1
+>>>
+```
+
+### Invoke the function from the CodeCard
+Ok, so now our cloud function and CodeCard are ready to Go! Powercycle your CodeCard and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
+```bash
+▒▒▒l`▒n▒Button b - short pressed
+>>>
+Connecting to 'pmac851' ...................connected!
+IP address: 192.168.43.13
+MAC address: 84:0D:8E:A7:89:5B
+>>>
+Request:
+  host: 129.213.19.161
+  port: 32690
+  url: http://`linux-instance-public-ip`:8080/t/codecard/button1
+  method: GET
+text/plain;charset=UTF-8
+Response:
+  {"template":"template1","title":"Hello there!","subtitle":"How are you?","bodytext":"This is my first Fn function from the Oracle Cloud.","icon":"opensource","backgroundColor":"white"}
+>>>
+```
