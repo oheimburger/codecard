@@ -1,174 +1,230 @@
 ![](images/helidon.png)
 
 ## Introduction
+In this guide, we'll show you how to deploy a Helidon microsrvice to Oracle Cloud Infrastructure's Kubernetes Engine. You can then configure your CodeCard to invoke the microservice over the internet!
 
-In this guide, we'll show you a few simple steps to launch an Oracle Linux instance on Oracle Cloud Infrastructure, and then proceed to launch your [Fn Project](https://fnproject.io/) Functions server & run your cloud functions. The path that we will take is as follows:
+The path that we will take is as follows:
 
- - Launch your Oracle Linux instance in the Oracle cloud
+- Deploy a Kubernetes cluster to Oracle Cloud Infrastructure
+- Prepare our development environment
+- Build and push Helidon microservice container image to the OCI container registry
+- Deploy the Helidon microservice to Oracle Container Engine (OKE)
+- Configure your CodeCard to invoke the Helidon microservice
 
- - Install Oracle Container Runtime for Docker
+### About Helidon
+Helidon is a collection of Java libraries for writing microservices that run on a fast web core powered by Netty. Helidon is designed to be simple to use, with tooling and examples to get you going quickly.
 
- - Install the Fn Functions Server
+Helidon supports MicroProfile, and provides familiar APIs like JAX-RS, CDI and JSON-P/B.
+The MicroProfile implementation runs on the fast Helidon Reactive WebServer.
 
- - Configure and run your Oracle Code Card Fn functions
+With support for health checks, metrics, tracing and fault tolerance, Helidon has what you need to write cloud ready applications that integrate with Prometheus, Jaeger/Zipkin and Kubernetes.
 
- - Create a Fn function for your Code Card
+Check out the Helidon [Docs & Guides](https://helidon.io/docs/latest/#/about/01_overview) to learn more.
 
-## Prerequisites
- - You will need to have deployed your OKE Kubernetes cluster prior to commencing implementation of the deployment scenario. Follow the link to [this tutorial](https://www.oracle.com/webfolder/technetwork/tutorials/obe/oci/oke-full/index.html) for guidance on the process.
+## Tutorial Prerequisites
+Prerequisites to be completed before continuing on with this tutorial:
+ - You will need to have deployed your OKE Kubernetes cluster prior to commencing implementation of the deployment scenario. Follow the link to [this tutorial](https://www.oracle.com/webfolder/technetwork/tutorials/obe/oci/oke-full/index.html) for guidance on the process. *Note: Be sure to provision your cluster to a public Virtual Cloud Network.*
  - Create a 'kube config' authentication artefact. This will be used later in the tutorial to connect to the OKE cluster. Follow the link to [this tutorial](https://www.oracle.com/webfolder/technetwork/tutorials/obe/oci/oke-full/index.html#DownloadthekubeconfigFilefortheCluster) for guidance on the process.
  - Install Docker on the host from which you will be following this work instruction. If you are running Oracle Linux, follow the link to [this tutorial](https://blogs.oracle.com/blogbypuneeth/a-simple-guide-to-docker-installation-on-oracle-linux-75) for guidance on the process.
 
-### Clone the 'codecard/microservices' git repository
-Clone the microservices repository:
+## Clone the 'codecard' git repository
+With the prerequisites all in place - now clone the `codecard` git repository to obtain the required collateral to build the Helidon microservice:
 
 ``` bash
-git clone https://github.com/oracle/cloudnative/security/oke-hashicorp-vault-tutorial.git
+git clone https://github.com/cameronsenese/codecard.git
 ```
 
-Commands from this point forward will assume that you are in the `../microservices/` directory.
+Commands from this point forward will assume that you are in the `../codecard/microservices/` directory.
 
-## Create an Oracle Linux instance on the Oracle Cloud Infrastructure
+## Build the Helidon container image
+Build the Helidon container image using the `docker build` command:
 
-
-## Configuring your Fn Server
-
-
-
-## Install and configure Docker
-
-
-
-
-
-
-
-
-
-
+```bash
+docker build -t helidon-mp .
 ```
-curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
-​```
 
-At completion, the installation will output the Fn CLI version - per the below example output.
+## Push the Helidon container image to the OCI registry
+In this next step, we'll push the local copy of the microservice image up to the cloud.
+*For a great walkthrough on how to use the OCI Registry service, check out [this article](https://www.oracle.com/webfolder/technetwork/tutorials/obe/oci/registry/index.html).*
 
+You will need to log into your Oracle Cloud Infrastructure console. Your user will either need to be a part of the tenancy's Administrators group, or another group with the `REPOSITORY_CREATE` permission.
+
+After confirming you have the proper permissions, generate an auth token for your user. *Be sure to take a copy of the token as you will not be able to access it again.*
+
+In the OCI console, navigate to the `Developer Services` | `Registry (OCIR)` tab, and select  the OCI region to which you would like to push the image. This should be the same region into which you provisioned your OKE cluster.
+
+### Log into the OCI registry
+Log into the OCI registry in your development environment using the docker login command:
+
+```bash
+docker login <region-key>.ocir.io
 ```
-fn version 0.5.16
 
-        ______
-       / ____/___
-      / /_  / __ \
-     / __/ / / / /
-    /_/   /_/ /_/`
+`<region-key>` corresponds to the code for the Oracle Cloud Infrastructure region you're using. See the [this](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm) reference for the available regions and associated keys.
 
+When prompted, enter your username in the format `<tenancy_name>/<username>`. When prompted, enter the auth token you copied earlier as the password.
+
+### Tag the Helidon image
+Next we'll tag the Helidon image that we're going to push to the OCI registry:
+
+```bash
+docker tag helidon-mp:latest <region-code>.ocir.io/<tenancy-name>/<repo-name>/helidon-mp:latest
 ```
-#### SELinux constraints
-Before you can start Fn you must relax SELinux constraints by running this command:
 
-	sudo setenforce permissive
+### Push the image to the OCI registry
+And now we'll use the `docker push` command to push the conainer image to the OCI registry:
 
-### Start your Fn Server
-
-Run the following command which will start Fn in the background as a single server mode, using an embedded database and message queue.
-
-	fn start -d
-
-Your Fn server is now instantiated and running in the background.
-
-## Configure and run your Fn functions
-
-Functions are small but powerful blocks of code that generally do one simple thing. Forget about monoliths when using functions, just focus on the task that you want the function to perform. Our CLI tool will help you get started super quickly.
-
-To create a hello world function, run the following command.
-
-	fn init --runtime go --trigger http hello
-
-This will create a simple function in the directory hello, so let's cd into it:
-
-	cd hello
-
-### Deploy your functions to your local Fn server
-
-	fn deploy --app codecard --create-app --local
-
-
-Now you can call your function locally using curl:
-
+```bash
+docker push <region-code>.ocir.io/<tenancy-name>/<repo-name>/helidon-mp:latest
 ```
-curl http://localhost:8080/t/codecard/hello-trigger
-​```
 
-or, using the fn client:
+Within the OCI console Registry UI you will now be able to see the newly created repository & image.
 
+## Deploy the Helidon microservice to OKE
+In this section, we will deply the microsoervice to your Kubernetes cluster.
+
+### Create namespace
+Let's first create a Kubernetes namespace for this project called `helidon`.
+
+```bash
+kubectl create namespace helidon
 ```
-fn invoke codecard hello
-​```
+### Deploy the application
+And next deploy the service.
 
-or in a browser: http://`linux-instance-public-ip`:8080/t/codecard/hello-trigger
+```bash
+kubectl create -f app.yaml -n helidon
+```
 
-That's it! You just deployed your first function and called it. You are now ready to configure your Code Card to access your cloud function!
+## Configure the CodeCard to invoke the Helidon microservice
+Before we go ahead and configure your CodeCard to invoke the microservice, we need to collect a few details about the service running in the Kubernetes cluster.
 
-## Create a Fn function for your Code Card
-The Code Card needs to receive the following JSON format:
+### Obtain the NodePort for the service
+First, obtain the network port that the service is listening on. From your development environment, run the following command.
+```bash
+kubectl get svc -n helidon
+```
+The output will be similar to the following:
+```bash
+NAME        TYPE     CLUSTER-IP     EXTERNAL-IP PORT(S)          AGE
+helidon-mp  NodePort 10.96.232.218  <none>      9081:32690/TCP   3d7h
+```
+Record the port number exposed as a Kubernetes NodePort, which is `32690` per the example above.
 
-Required fields:
-​```
-{
-	"template": "template[1-11]",
-	"title": "Hello World",
-	"subtitle": "This is a subtitle",
-	"bodtext": "This is the body",
-	"icon": "[see list of named icons| BMP url]",
-	"backgroundColor": "[white|black]"
-}
-​```
-**Check out the list of available named icons [here](icons.md)*.
+### Obtain the external IP address for the service
+Next we obtain the external IP address at which the service can be contacted. From your development environment, run the following command.
+```bash
+kubectl get nodes
+```
+The output will be similar to the following:
+```bash
+NAME        STATUS   ROLES   AGE     VERSION
+10.0.10.2   Ready    node    3d10h   v1.13.5
+```
+Record the name of the worker node, which is `10.0.10.2` per the example above.
 
-Optional fields:
-​```
-{	...
-	"badge": [0-100] It will override the icon
-	"backgroundImage": "[oracle|codeone | BMP url]" Only for templates that have backgrounds
-	"fingerprint": "" The SHA-1 signature of the server containing the custom icon or backgroundImage URL.
-	...
-}
-​```
-To checkout all available templates go to Oracle Events App -> Code One --> Code Card Designer.
+With the name of the worker node, run the following command.
+```bash
+kubectl describe node <NodeName>
+```
 
-Let's create our first Code Card function!
+The output will be similar to the following (truncated) summary.
+```bash
+Addresses:
+  InternalIP:  10.0.10.2
+  ExternalIP:  129.213.19.161
+```
+Locate and and record the value for `ExternalIP`, which is `129.213.19.161` per the example above.
 
-	fn init --runtime node --trigger http button1
-	cd button1
+With the information that we have collected, we can now construct a http request to invoke the microservice. The format is as follows:
 
-Now lets edit the func.js file using `nano	` or `vi`.
+```bash
+http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
+```
+*Note: `<DevName>` should be populated with the name of the developer implementing the solution, this will form a part of the response data returned by the microservice.*
 
-	nano func.js
+### Configure CodeCard
+The final step is to configure the CodeCard to invoke the microservice!
+In this example, we will program the `shortpress` action for button `B` on the card.
 
+#### Establish serial connection with CodeCard
+In order to configure our CodeCard, we need to establish a serial connection over USB to the CodeCard CLI. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#connect-via-terminal-emulator) to establish the serial over USB connection. Remember to ensure that the CodeCard WiFi settings are configure correctly also! (Direction available from the referenced guide).
 
-Modify the handle function to look like this:
-​```
-fdk.handle(function(input){
-    let codeCardJson = {
-      template: 'template1',
-      title: 'Hello there!',
-      subtitle: 'How are you?',
-      bodytext: 'This is my first Fn function from the Oracle Cloud.',
-      icon: 'opensource',
-      backgroundColor: 'white'
-    }
-    return codeCardJson
-})
-​```
-In nano `Ctrl` + O and `Ctrl` + X (WriteOut and Exit.)
+#### Configure `buttonb1` button action
+*In the CodeCard CLI, `buttonb1` correlates to button B shortpress action.*
 
-In vi `ESC`  `:wq` (write and quit.)
+In your terminal session you should now see the CodeCard CLI Menu, as follows.
+```bash
+***************************************************************************************
+  Code Card v1.0
+  Oracle Groundbreakers
+  developer.oracle.com/codecard
+***************************************************************************************
+Commands:
+  ls                Show all stored key/values
+  help              Show this help
+  shortpress[a|b]   Simulate the press of a button
+  longpress[a|b]    Simulate the long press of a button
+  connect           Connect to wifi
+  disconnect        Disconnect wifi
+  restart           Restart wifi
+  status            Show wifi status
+  home              Show home screen
+  reset             Reset to factory settings
 
-Now deploy your new function
+Usage:
+  Read saved key value:
+    key
+  Save new key value:
+    key=[value]
 
-	fn deploy --app codecard --local
+Available keys:
+  ssid, password, buttona1, buttona2, buttonb1, buttonb2, fingerprinta1, fingerprinta2,
+  fingerprintb1, fingerprintb2, methoda1, methoda2, methodb1, methodb2,
+>>>
+```
 
-And test on your browser
+First, we will set the HTTP method for the B shortpress by entering the following command.
+*Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.*
+```bash
+methodb1=GET
+```
 
-	http://`linux-instance-public-ip`:8080/t/codecard/button1-trigger
+CodeCard will confirm setting update as follows.
+```bash
+>>>
+Value saved for methodb1: GET
+>>>
+```
 
-Now you are ready to configure your Code Card to point to your new function! Go to the [Code Card Teminal](https://github.com/cameronsenese/codecard/tree/master/terminal) page to learn how to configure your Card using serial communication.
+Next configure the HTTP endpoint for the B shortpress by entering the following command. Be sure to substitute values in `<brackets>` as appropriate.
+```bash
+buttonb1=http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
+```
+
+CodeCard will confirm setting update as follows.
+```bash
+>>>
+Value saved for buttonb1: http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
+>>>
+```
+
+### Invoke the microservice from the CodeCard
+Ok, so now our Helidon microservice and CodeCard are ready to Go! Powercycle your CodeCard and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
+```bash
+▒▒▒l`▒n▒Button b - short pressed
+>>>
+Connecting to 'pmac851' ...................connected!
+IP address: 192.168.43.13
+MAC address: 84:0D:8E:A7:89:5B
+>>>
+Request:
+  host: 129.213.19.161
+  port: 32690
+  url: http://129.213.19.161:32690/HelidonMP/Cameron
+  method: GET
+text/plain;charset=UTF-8
+Response:
+  {"template":"template1","title":"Hello Cameron!!","subtitle":"How are you?","bodytext":"This is my first Helidon Microservice from the oracle cloud","icon":"microservices","backgroundColor":"white"}
+>>>
+```
