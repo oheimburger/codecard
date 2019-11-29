@@ -1,7 +1,7 @@
 ![](images/helidon.png)
 
 ## Introduction
-In this guide, we'll show you how to deploy a Helidon microsrvice to Oracle Cloud Infrastructure's Kubernetes Engine. You can then configure your CodeCard to invoke the microservice over the internet!
+In this guide, we'll show you how to deploy a Helidon microsrvice to Oracle Cloud Infrastructure's Kubernetes Engine. You can then configure your Code Card to invoke the microservice over the internet!
 
 The path that we will take is as follows:
 
@@ -9,7 +9,7 @@ The path that we will take is as follows:
 - Prepare our development environment
 - Build and push Helidon microservice container image to the OCI container registry
 - Deploy the Helidon microservice to Oracle Container Engine (OKE)
-- Configure your CodeCard to invoke the Helidon microservice
+- Configure your Code Card to invoke the Helidon microservice
 
 ### About Helidon
 Helidon is a collection of Java libraries for writing microservices that run on a fast web core powered by Netty. Helidon is designed to be simple to use, with tooling and examples to get you going quickly.
@@ -190,7 +190,7 @@ First, we will set the HTTP method for the B shortpress by entering the followin
 methodb1=GET
 ```
 
-CodeCard will confirm setting update as follows.
+Code Card will confirm setting update as follows.
 ```bash
 >>>
 Value saved for methodb1: GET
@@ -202,15 +202,15 @@ Next configure the HTTP endpoint for the B shortpress by entering the following 
 buttonb1=http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
 ```
 
-CodeCard will confirm setting update as follows.
+Code Card will confirm setting update as follows.
 ```bash
 >>>
 Value saved for buttonb1: http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
 >>>
 ```
 
-### Invoke the microservice from the CodeCard
-Ok, so now our Helidon microservice and CodeCard are ready to Go! Powercycle your CodeCard and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
+### Invoke the microservice from the Code Card
+Ok, so now our Helidon microservice and Code Card are ready to Go! Powercycle your Code Card and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
 ```bash
 ▒▒▒l`▒n▒Button b - short pressed
 >>>
