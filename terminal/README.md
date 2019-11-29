@@ -1,7 +1,7 @@
 # Code Card CLI
 ![](images/code-card-cli.png)
 
-To make it easier to configure your Code Card, we included an embedded CLI.
+To make it easier to configure your Code Card, we included an embedded CLI.  
 The Code Card has a serial-usb chip. We use serial communication to configure the Code Card wifi and button settings.
 
 ### Connect via Terminal Emulator
@@ -25,14 +25,14 @@ You can type `help` in the emulator anytime to bring up a list of commands..
 
 Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.
 
-###### Change Wi-Fi Profile:
+##### Change Wi-Fi Profile:
 
 First, we will set the Wi-Fi SSID by entering the following command.
 ```bash
 ssid=<your-ssid>
 ```
 
-CodeCard will confirm setting update as follows.
+Code Card will confirm setting update as follows.
 ```bash
 >>>
 Value saved for ssid: <your-ssid>
@@ -44,7 +44,7 @@ Next, set the Wi-Fi password by entering the following command.
 password=<your-password>
 ```
 
-CodeCard will confirm setting update as follows.
+Code Card will confirm setting update as follows.
 ```bash
 >>>
 Value saved for password: <your-password>
