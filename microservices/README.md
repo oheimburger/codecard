@@ -212,7 +212,7 @@ Value saved for buttonb1: http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
 ### Invoke the microservice from the Code Card
 Ok, so now our Helidon microservice and Code Card are ready to Go! Powercycle your Code Card and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
 ```bash
-▒▒▒l`▒n▒Button b - short pressed
+Button b - short pressed
 >>>
 Connecting to 'pmac851' ...................connected!
 IP address: 192.168.43.13
