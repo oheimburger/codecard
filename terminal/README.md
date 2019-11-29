@@ -12,7 +12,7 @@ The USB-Serial port will have different names depending on your OS:
 -	Mac: /dev/tty.wchusbserial[XXXX]
 -	Linux: /dev/ttyUSB[X]
 
-If your machine is not recognizing the Code Card, you might need to install the [the Silicon Labs CP2104 USB serial drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers). You will need to reboot your system before the drivers will function correctly.
+_If your machine is not recognizing the Code Card, you might need to install the [the Silicon Labs CP2104 USB serial drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers). You will need to reboot your system before the drivers will function correctly._
 
 ##### Steps
 
