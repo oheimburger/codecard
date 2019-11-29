@@ -1,7 +1,7 @@
 # Code Card CLI
 ![](images/code-card-cli.png)
-To make it easier to configure your Code Card, we included an embedded CLI.
 
+To make it easier to configure your Code Card, we included an embedded CLI.
 The Code Card has a serial-usb chip. We use serial communication to configure the Code Card wifi and button settings.
 
 ### Connect via Terminal Emulator
