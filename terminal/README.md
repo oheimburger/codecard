@@ -18,11 +18,35 @@ _If your machine is not recognizing the Code Card, you might need to install the
 
 1. Connect to the device with the emulator for your OS (baud rate = 115200)
 2. Once connected, you'll need to reset the device by flipping the power switch off then on again
-3. Type help in the emulator to bring up a list of commands
+3. Bring the Code Card into configuration mode by performing a simultaneous button A+B short-press
 
-To change to wifi profile
-
-	ssid={your-ssid}
-	password={your-wifi-password}
+Once the Code Card has finished booting into configuration mode - the CLI menu will be displayed.
+You can type `help` in the emulator anytime to bring up a list of commands..
 
 Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.
+
+###### Change Wi-Fi Profile:
+
+First, we will set the Wi-Fi SSID by entering the following command.
+```bash
+ssid=<your-ssid>
+```
+
+CodeCard will confirm setting update as follows.
+```bash
+>>>
+Value saved for ssid: <your-ssid>
+>>>
+```
+
+Next, set the Wi-Fi password by entering the following command.
+```bash
+password=<your-password>
+```
+
+CodeCard will confirm setting update as follows.
+```bash
+>>>
+Value saved for password: <your-password>
+>>>
+```
