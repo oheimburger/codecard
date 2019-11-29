@@ -21,7 +21,7 @@ Your Oracle Linux instance is now running, and ready to be configured to host yo
 
 While connected to your Oracle Linux instance, run the following commands to install and configure the Docker container runtime.
 
-```
+```bash
 sudo yum -y install docker-engine-18.03.1.ol-0.0.9.el7.x86_64 -y
 sudo usermod -aG docker opc
 sudo systemctl enable docker
@@ -33,13 +33,13 @@ Once you have reconnected to the instance, run the following command to install 
 
 ### Configure Oracle Linux for Fn
 
-```
+```bash
 curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 ```
 
 At completion, the installation will output the Fn CLI version - per the below example output.
 
-```
+```bash
 fn version 0.5.16
 
         ______
@@ -49,16 +49,21 @@ fn version 0.5.16
     /_/   /_/ /_/`
 
 ```
+
 #### SELinux constraints
 Before you can start Fn you must relax SELinux constraints by running this command:
 
-	sudo setenforce permissive
+```bash
+sudo setenforce permissive
+```
 
 ### Start your Fn Server
 
 Run the following command which will start Fn in the background as a single server mode, using an embedded database and message queue.
 
-	fn start -d
+```bash
+fn start -d
+```
 
 Your Fn server is now instantiated and running in the background.
 
@@ -68,30 +73,35 @@ Functions are small but powerful blocks of code that generally do one simple thi
 
 To create a hello world function, run the following command.
 
-	fn init --runtime go --trigger http hello
+```bash
+fn init --runtime go --trigger http hello
+```
 
 This will create a simple function in the directory hello, so let's cd into it:
 
-	cd hello
+```bash
+cd hello
+```
 
 ### Deploy your functions to your local Fn server
 
-	fn deploy --app codecard --create-app --local
-
+```bash
+fn deploy --app codecard --create-app --local
+```
 
 Now you can call your function locally using curl:
 
-```
+```bash
 curl http://localhost:8080/t/codecard/hello
 ```
 
-or, using the fn client:
+or, using the Fn client:
 
-```
+```bash
 fn invoke codecard hello
 ```
 
-or in a browser: http://`linux-instance-public-ip`:8080/t/codecard/hello-trigger
+or in a browser: http://<linux-instance-public-ip>:8080/t/codecard/hello-trigger
 
 That's it! You just deployed your first function and called it. You are now ready to configure your Code Card to access your cloud function!
 
@@ -99,7 +109,8 @@ That's it! You just deployed your first function and called it. You are now read
 The Code Card needs to receive the following JSON format:
 
 Required fields:
-```
+
+```bash
 {
 	"template": "template[1-11]",
 	"title": "Hello World",
@@ -109,10 +120,12 @@ Required fields:
 	"backgroundColor": "[white|black]"
 }
 ```
+
 **Check out the list of available named icons [here](icons.md)*.
 
 Optional fields:
-```
+
+```bash
 {	...
 	"badge": [0-100] It will override the icon
 	"backgroundImage": "[oracle|codeone | BMP url]" Only for templates that have backgrounds
@@ -120,20 +133,25 @@ Optional fields:
 	...
 }
 ```
+
 To checkout all available templates go to Oracle Events App -> Code One --> Code Card Designer.
 
 Let's create our first Code Card function!
 
-	fn init --runtime node --trigger http button1
-	cd button1
+```bash
+fn init --runtime node --trigger http button1
+cd button1
+```bash
 
-Now lets edit the func.js file using `nano	` or `vi`.
+Now lets edit the func.js file using `nano` or `vi`.
 
-	nano func.js
-
+```bash
+nano func.js
+```bash
 
 Modify the handle function to look like this:
-```
+
+```bash 
 fdk.handle(function(input){
     let codeCardJson = {
       template: 'template1',
@@ -146,30 +164,36 @@ fdk.handle(function(input){
     return codeCardJson
 })
 ```
+
 In nano `Ctrl` + O and `Ctrl` + X (WriteOut and Exit.)
 
 In vi `ESC`  `:wq` (write and quit.)
 
 Now deploy your new function
 
-	fn deploy --app codecard --local
+```bash
+fn deploy --app codecard --local
+```bash
 
 And test on your browser
 
-	http://`linux-instance-public-ip`:8080/t/codecard/button1
+```bash
+http://<linux-instance-public-ip>:8080/t/codecard/button1
+```
 
 Now you are ready to configure your Code Card to point to your new function!
 
-### Configure CodeCard
+### Configure Code Card
 In this example, we will program the `shortpress` action for button `B` on the card.
 
-#### Establish serial connection with CodeCard
-In order to configure our CodeCard, we need to establish a serial connection over USB to the CodeCard CLI. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#connect-via-terminal-emulator) to establish the serial over USB connection. Remember to ensure that the CodeCard WiFi settings are configure correctly also! (Direction available from the referenced guide).
+#### Establish serial connection with Code Card
+In order to configure our Code Card, we need to establish a serial connection over USB to the CodeCard CLI. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#connect-via-terminal-emulator) to establish the serial over USB connection. Remember to ensure that the Code Card WiFi settings are configured correctly also! (Direction available from the referenced guide).
 
 #### Configure `buttonb1` button action
-*In the CodeCard CLI, `buttonb1` correlates to button B shortpress action.*
+*In the Code Card CLI, `buttonb1` correlates to button B shortpress action.*
 
-In your terminal session you should now see the CodeCard CLI Menu, as follows.
+In your terminal session you should now see the Code Card CLI Menu, as follows.
+
 ```bash
 ***************************************************************************************
   Code Card v1.0
@@ -202,11 +226,12 @@ Available keys:
 
 First, we will set the HTTP method for the B shortpress by entering the following command.
 *Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.*
+
 ```bash
 methodb1=GET
 ```
 
-CodeCard will confirm setting update as follows.
+Code Card will confirm setting update as follows.
 ```bash
 >>>
 Value saved for methodb1: GET
@@ -214,21 +239,24 @@ Value saved for methodb1: GET
 ```
 
 Next configure the HTTP endpoint for the B shortpress by entering the following command. Be sure to substitute values in `<brackets>` as appropriate.
+
 ```bash
-buttonb1=http://`linux-instance-public-ip`:8080/t/codecard/button1
+buttonb1=http://<linux-instance-public-ip>:8080/t/codecard/button1
 ```
 
-CodeCard will confirm setting update as follows.
+Code Card will confirm setting update as follows.
+
 ```bash
 >>>
-Value saved for buttonb1: http://`linux-instance-public-ip`:8080/t/codecard/button1
+Value saved for buttonb1: http://<linux-instance-public-ip>:8080/t/codecard/button1
 >>>
 ```
 
-### Invoke the function from the CodeCard
-Ok, so now our cloud function and CodeCard are ready to Go! Powercycle your CodeCard and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
+### Invoke the function from the Code Card
+Ok, so now our cloud function and Code Card are ready to Go! Powercycle your Code Card and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
+
 ```bash
-▒▒▒l`▒n▒Button b - short pressed
+Button b - short pressed
 >>>
 Connecting to 'pmac851' ...................connected!
 IP address: 192.168.43.13
