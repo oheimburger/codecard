@@ -101,34 +101,43 @@ Before we go ahead and configure your CodeCard to invoke the microservice, we ne
 
 ### Obtain the NodePort for the service
 First, obtain the network port that the service is listening on. From your development environment, run the following command.
+
 ```bash
 kubectl get svc -n helidon
 ```
+
 The output will be similar to the following:
+
 ```bash
 NAME        TYPE     CLUSTER-IP     EXTERNAL-IP PORT(S)          AGE
 helidon-mp  NodePort 10.96.232.218  <none>      9081:32690/TCP   3d7h
 ```
+
 Record the port number exposed as a Kubernetes NodePort, which is `32690` per the example above.
 
 ### Obtain the external IP address for the service
 Next we obtain the external IP address at which the service can be contacted. From your development environment, run the following command.
+
 ```bash
 kubectl get nodes
 ```
 The output will be similar to the following:
+
 ```bash
 NAME        STATUS   ROLES   AGE     VERSION
 10.0.10.2   Ready    node    3d10h   v1.13.5
 ```
+
 Record the name of the worker node, which is `10.0.10.2` per the example above.
 
 With the name of the worker node, run the following command.
+
 ```bash
 kubectl describe node <NodeName>
 ```
 
 The output will be similar to the following (truncated) summary.
+
 ```bash
 Addresses:
   InternalIP:  10.0.10.2
@@ -141,19 +150,21 @@ With the information that we have collected, we can now construct a http request
 ```bash
 http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
 ```
+
 *Note: `<DevName>` should be populated with the name of the developer implementing the solution, this will form a part of the response data returned by the microservice.*
 
-### Configure CodeCard
-The final step is to configure the CodeCard to invoke the microservice!
+### Configure Code Card
+The final step is to configure the Code Card to invoke the microservice!
 In this example, we will program the `shortpress` action for button `B` on the card.
 
-#### Establish serial connection with CodeCard
-In order to configure our CodeCard, we need to establish a serial connection over USB to the CodeCard CLI. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#connect-via-terminal-emulator) to establish the serial over USB connection. Remember to ensure that the CodeCard WiFi settings are configure correctly also! (Direction available from the referenced guide).
+#### Establish serial connection with Code Card
+In order to configure our Code Card, we need to establish a serial connection over USB to the CodeCard CLI. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#connect-via-terminal-emulator) to establish the serial over USB connection. Remember to ensure that the Code Card WiFi settings are configure correctly also! (Direction available from the referenced guide).
 
 #### Configure `buttonb1` button action
-*In the CodeCard CLI, `buttonb1` correlates to button B shortpress action.*
+*In the Code Card CLI, `buttonb1` correlates to button B shortpress action.*
 
 In your terminal session you should now see the CodeCard CLI Menu, as follows.
+
 ```bash
 ***************************************************************************************
   Code Card v1.0
@@ -186,11 +197,13 @@ Available keys:
 
 First, we will set the HTTP method for the B shortpress by entering the following command.
 *Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.*
+
 ```bash
 methodb1=GET
 ```
 
 Code Card will confirm setting update as follows.
+
 ```bash
 >>>
 Value saved for methodb1: GET
@@ -198,11 +211,13 @@ Value saved for methodb1: GET
 ```
 
 Next configure the HTTP endpoint for the B shortpress by entering the following command. Be sure to substitute values in `<brackets>` as appropriate.
+
 ```bash
 buttonb1=http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
 ```
 
 Code Card will confirm setting update as follows.
+
 ```bash
 >>>
 Value saved for buttonb1: http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
@@ -211,6 +226,7 @@ Value saved for buttonb1: http://<ExternalIP>:<NodePort>/HelidonMP/<DevName>
 
 ### Invoke the microservice from the Code Card
 Ok, so now our Helidon microservice and Code Card are ready to Go! Powercycle your Code Card and perform a button B shortpress. If your card is still connected via the serial connection, you will see output similar to the following.
+
 ```bash
 Button b - short pressed
 >>>
