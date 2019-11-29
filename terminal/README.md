@@ -20,7 +20,7 @@ _If your machine is not recognizing the Code Card, you might need to install the
 2. Once connected, you'll need to reset the device by flipping the power switch off then on again
 3. Bring the Code Card into configuration mode by performing a simultaneous button A+B short-press
 
-Once the Code Card has finished booting into configuration mode - the CLI menu will be displayed.
+Once the Code Card has finished booting into configuration mode - the CLI menu will be displayed (per the above image).  
 You can type `help` in the emulator anytime to bring up a list of commands..
 
 Keep in mind that pausing for 2 seconds while typing will automatically enter the command. It may be easier to pre-type the commands elsewhere and copy-paste them into the window.
