@@ -173,7 +173,7 @@ Now deploy your new function
 
 ```bash
 fn deploy --app codecard --local
-```bash
+```
 
 And test on your browser
 
