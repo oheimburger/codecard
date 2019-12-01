@@ -91,7 +91,7 @@ kubectl create namespace helidon
 ```
 
 ### Update the application manifest
-Before deploying the application, we need to update the yaml descriptor for the application to include the correct path to your container image. Open the file app.yaml, and replace the bracketed values in the image path on line 46:
+Before deploying the application, we need to update the yaml descriptor for the application to include the correct path to your container image. Open the file `app.yaml`, and replace the bracketed values in the image path on line 46:
 
 ```bash
 image: <region-code>.ocir.io/<tenancy-name>/<repo-name>/helidon-mp:latest
