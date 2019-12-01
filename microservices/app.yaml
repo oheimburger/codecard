@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: helidon-mp
-        image: iad.ocir.io/sehubjapaciaas/codecard/helidon-mp
+        image: <region-code>.ocir.io/<tenancy-name>/<repo-name>/helidon-mp:latest
         imagePullPolicy: Always 
         ports:
         - containerPort: 9081 
