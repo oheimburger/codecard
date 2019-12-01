@@ -1,11 +1,12 @@
 FROM frolvlad/alpine-glibc:alpine-3.9
 
-# update base image and download required glibc libraries
+# update base image and download required glibc libraries..
+#RUN echo -e "http://nl.alpinelinux.org/alpine/v3.5/main\nhttp://nl.alpinelinux.org/alpine/v3.5/community" > /etc/apk/repositories
 RUN apk update && apk add libaio libnsl && \
    ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1
 RUN apk add --no-cache nss
 
-#install node, git, python and cleanup cache
+# install node, git, python and cleanup cache..
 RUN apk add --update \
    nodejs \
    nodejs-npm \
@@ -14,10 +15,9 @@ RUN apk add --update \
   && rm -rf /var/cache/apk/*
 
 RUN mkdir /app
-COPY libs /app/libs
 COPY helidon-mp-0.0.1-SNAPSHOT.jar /app/
 
-# get node app from git repo
+# more dependencies..
 RUN apk update
 RUN apk fetch openjdk8
 RUN apk add openjdk8
