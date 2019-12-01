@@ -251,6 +251,6 @@ Request:
   method: GET
 text/plain;charset=UTF-8
 Response:
-  {"template":"template1","title":"Hello Cameron!!","subtitle":"How are you?","bodytext":"This is my first Helidon Microservice from the oracle cloud","icon":"microservices","backgroundColor":"white"}
+  {"template":"template1","title":"Hello Cameron!!","subtitle":"Pleased to meet you!","bodytext":"This is your first Helidon Microservice from the Oracle Cloud!","icon":"microservice","backgroundColor":"white"}
 >>>
 ```
