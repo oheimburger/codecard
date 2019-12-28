@@ -23,10 +23,13 @@ The Code Card Configurator uses the pyserial module to perform configuration upd
 Configure your Code Card to run Serverless Functions on Oracle Cloud Infrastructure using the Fn project FaaS platform. The Fn project is an open-source container-native serverless platform.
 
   - **[Text Based Function](/functions/)**  
-You can configure the function to return a JSON payload to the code card that will apply one of the default template layouts, associated icon, and custom text on your Code Card.
+Configure an Fn function to return a JSON payload to the Code Card that will apply one of the default template layouts with an associated icon, and custom text on your Code Card.
+
+  - **[Node.js Weather Function](/functions/example/weather)**  
+Configure an Fn function to retrieve and display the weather forecast on the Code Card e-paper display.
 
   - **[Display Custom Bitmap](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#alternative-via-terminal-emulator)**  
-Configure the Fn function to direct the Code Card to download and apply a custom image to the e-paper display.
+Configure an Fn function to download and apply a custom bitmap image to the Code Card e-paper display.
 
 - **[Helidon (Java) Microservices on Kubernetes](/microservices/)**  
 Configure your Code Card to invoke a Java microservice running on Oracle Container Engine for Kubernetes (OKE). The Java microservice is built using the opensource [Helidon](https://helidon.io/#/) framework.
