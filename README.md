@@ -28,7 +28,7 @@ Configure an Fn function to return a JSON payload to the Code Card that will app
   - **[Node.js Weather Function](/functions/example/weather)**  
 Configure an Fn function to retrieve and display the weather forecast on the Code Card e-paper display.
 
-  - **[Display Custom Bitmap](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#alternative-via-terminal-emulator)**  
+  - **[Custom Bitmap Function](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#alternative-via-terminal-emulator)**  
 Configure an Fn function to download and apply a custom bitmap image to the Code Card e-paper display.
 
 - **[Helidon (Java) Microservices on Kubernetes](/microservices/)**  
