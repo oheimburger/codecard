@@ -23,7 +23,7 @@ The Code Card Configurator uses the pyserial module to perform configuration upd
 Configure your Code Card to run Serverless Functions on Oracle Cloud Infrastructure using the Fn project FaaS platform. The Fn project is an open-source container-native serverless platform.
 
   - **[Name Badge Function](/functions/)**  
-Configure an Fn function to return a JSON payload to the Code Card that will apply one of the default template layouts with an associated icon, and custom text on your Code Card.
+Configure an Fn function to apply one of the default Code Card template layouts (with an associated icon, and custom text) to your Code Card e-paper display.
 
   - **[Node.js Weather Function](/functions/example/weather)**  
 Configure an Fn function to retrieve and display the weather forecast on the Code Card e-paper display.
