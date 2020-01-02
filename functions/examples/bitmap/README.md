@@ -25,7 +25,7 @@ In order for the image to display correctly on your Code Card, save the image wi
 
 
 
-<img src="images/image-orientation.png" width="500">
+<img src="images/image-orientation.png" width="450">
 
 ## Upload custom .bmp to Object Storage Bucket
 
