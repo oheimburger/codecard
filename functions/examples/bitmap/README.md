@@ -23,8 +23,9 @@ The bitmap image properties should fall within the following guidelines:
 
 In order for the image to display correctly on your Code Card, save the image with the orientation as rotated 90 degrees counter-clockwise:
 
-![](images/image-orientation.png)
 
+
+<img src="images/image-orientation.png" width="600">
 
 ## Upload custom .bmp to Object Storage Bucket
 
