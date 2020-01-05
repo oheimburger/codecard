@@ -25,10 +25,10 @@ Configure your Code Card to run Serverless Functions on Oracle Cloud Infrastruct
   - **[Name Badge Function](/functions/)**  
 Configure an Fn function to apply one of the default Code Card template layouts (with an associated icon, and custom text) to your Code Card e-paper display.
 
-  - **[Node.js Weather Function](/functions/example/weather)**  
+  - **[Node.js Weather Function](https://github.com/cameronsenese/codecard/tree/master/functions/examples/weather)**  
 Configure an Fn function to retrieve and display the weather forecast on the Code Card e-paper display.
 
-  - **[Custom Bitmap Function](https://github.com/cameronsenese/codecard/blob/master/terminal/README.md#alternative-via-terminal-emulator)**  
+  - **[Custom Bitmap Function](https://github.com/cameronsenese/codecard/tree/master/functions/examples/bitmap)**  
 Configure an Fn function to download and apply a custom bitmap image to the Code Card e-paper display.
 
 - **[Helidon (Java) Microservices on Kubernetes](/microservices/)**  
