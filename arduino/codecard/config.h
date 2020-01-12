@@ -43,7 +43,7 @@ const char* projectSite = "developer.oracle.com/codecard";
 const char* defaultSSID = "CHANGE_TO_SSID";
 const char* defaultPassword = "CHANGE_TO_PASSWORD";
 const char* defaultUrl = "https://apex.oracle.com/pls/apex/appslab/functions/master";
-const char* defaultFingerprint = "01 92 1A 05 84 F5 36 14 85 E3 9C 87 93 4C D0 76 64 B1 CE 9D";
+const char* defaultFingerprint = "2C C2 E9 A1 16 75 DC E5 ED 97 69 49 52 EC 9B A4 81 87 44 2A";
 
 //char arrayToStore[100];
 const int maxValue = 200;
