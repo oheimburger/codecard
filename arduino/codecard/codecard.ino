@@ -92,7 +92,7 @@ void setup() {
 
 void shutdown() {
   display.powerOff();
-  Serial.println("Shuting down...");
+  Serial.println("Shutting down...");
   delay(100);
   digitalWrite(WAKE_PIN, LOW);
 }
