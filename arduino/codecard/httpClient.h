@@ -92,9 +92,9 @@ String secureRequest(String host, int port, String url, String btnLabel, int btn
 
   if (fingerprint == "") {
     Serial.println(F(""));
-    Serial.println(F("  This SSL url needs to have a corresponding SHA fingerprint."));
+    Serial.println(F("  This SSL/TLS url needs to have a corresponding SHA fingerprint."));
     Serial.println(F("  Add one by typing 'fingerprint[btn][fn]=XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX'."));
-    Serial.println("  To learn how to retrieve an SSL SHA fingerprint go to " + String(projectSite));
+    Serial.println("  To learn how to retrieve an SSL/TLS SHA fingerprint go to " + String(projectSite));
     Serial.println(F(">>>"));
     return "";
   }
@@ -109,6 +109,8 @@ String secureRequest(String host, int port, String url, String btnLabel, int btn
 
   if (!client.verify(fingerprint.c_str(), host.c_str())) {
     Serial.println(F("  Connection insecure! Halting execution."));
+    Serial.println(F("  Ensure that the configured fingerprint matches the SHA fingerprint for the SSL/TLS URL."));
+    Serial.println("  To learn how to retrieve an SSL/TLS SHA fingerprint go to " + String(projectSite));
     Serial.println(F(">>>"));
     return "";
   }
@@ -181,6 +183,8 @@ void httpsImage(String host, int port, String url, int16_t x, int16_t y, String 
   
   if (!secureClient.verify(fingerprint.c_str(), host.c_str())) {
     Serial.println(F("  Connection insecure! Halting execution."));
+    Serial.println(F("  Ensure that the configured fingerprint matches the SHA fingerprint for the SSL/TLS URL."));
+    Serial.println("  To learn how to retrieve an SSL/TLS SHA fingerprint go to " + String(projectSite));
     Serial.println(F(">>>"));
     return;
   }
