@@ -23,8 +23,6 @@ The bitmap image properties should fall within the following guidelines:
 
 In order for the image to display correctly on your Code Card, save the image with the orientation as rotated 90 degrees counter-clockwise:
 
-
-
 <img src="images/image-orientation.png" width="450">
 
 ## Upload custom .bmp to Object Storage Bucket
@@ -91,17 +89,17 @@ Let's create our Code Card function!
 ```bash
 fn init --runtime node --trigger http button2
 cd button2
-​```bash
+```
 
 Now lets edit the func.js file using `nano` or `vi`.
 
-​```bash
+```bash
 nano func.js
-​```bash
+```
 
 Modify the handle function to look like this:
 
-​```bash 
+```bash 
 fdk.handle(function(input){
     let codeCardJson = {
       template: 'template8',
