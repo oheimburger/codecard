@@ -12,7 +12,7 @@ The custom bitmap image will be hosted in an OCI Object Storage Service (OSS) bu
 
 First, let's implement and configure the necessary components to create the custom Fn function.
 
-You'll need an Oracle Linux compute instance running the Fn functions server in your OCI tenancy. Follow [this guide](https://github.com/cameronsenese/codecard/blob/master/functions/README.md), up to and including the step named *'Deploy your functions to your local Fn server'* before proceeding to implement the below configuration.
+You'll need an Oracle Linux compute instance running the Fn functions server in your OCI tenancy. Follow [this guide](https://github.com/oheimburger/codecard/blob/master/functions/README.md), up to and including the step named *'Deploy your functions to your local Fn server'* before proceeding to implement the below configuration.
 
 ## Image Properties
 
@@ -112,9 +112,9 @@ fdk.handle(function(input){
 
 Replace the `backgroundImage` URL with the Object Storage Service Pre-Authenticated Request.
 
-In nano `Ctrl` + O and `Ctrl` + X (WriteOut and Exit.)
+In nano `Ctrl` + `O` and `Ctrl` + `X` (WriteOut and Exit.)
 
-In vi `ESC`  `:wq` (write and quit.)
+In vi `ESC` `:wq` (write and quit.)
 
 Now deploy your new function
 
