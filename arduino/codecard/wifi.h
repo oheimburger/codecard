@@ -1,28 +1,18 @@
 /*
   wifi.h
-  
 */
 
 bool wifiConnect() {
   char arrayToStore[100];
-  String ssid = EEPROM.get(0*maxValue, arrayToStore);
-  String password = EEPROM.get(1*maxValue, arrayToStore);
-
-//  if (ssid == "") { 
-//    Serial.println(); 
-//    Serial.println(F("Cannot connect to WiFi because there is no ssid defined. Please save a value for 'ssid' and 'password'.")); 
-//    Serial.println(F(">>>"));
-//    return false; 
-//  }
-
-  if (ssid == "") { 
+  String ssid = EEPROM.get(0 * maxValue, arrayToStore);
+  String password = EEPROM.get(1 * maxValue, arrayToStore);
+  if (ssid == "") {
     ssid = defaultSSID;
     password = defaultPassword;
-    Serial.println(); 
-    Serial.println(F("Connecting to default SSID and Password")); 
-    Serial.println(F(">>>"));    
+    Serial.println();
+    Serial.println(F("Connecting to default SSID and Password"));
+    Serial.println(F(">>>"));
   }
-  
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid.c_str(), password.c_str());
   Serial.print(F("Connecting to '"));
@@ -32,20 +22,17 @@ bool wifiConnect() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    if((millis() - start) > 10000) { //try to connect for 10 seconds.
+    if ((millis() - start) > 10000) { // try to connect for 10 seconds.
       Serial.println();
-      Serial.print(F("Could not connect to '"));
-      Serial.print(ssid);
+      Serial.print(F("Could not connect to '")); Serial.print(ssid);
       Serial.println(F("'. Please check your ssid and password values. Type 'help' for more info."));
       Serial.println(F(">>>"));
       return false;
     }
   }
   Serial.println(F("connected!"));
-  Serial.print(F("IP address: "));
-  Serial.println(WiFi.localIP()); 
-  Serial.print(F("MAC address: "));
-  Serial.println(WiFi.macAddress());
+  Serial.print(F("IP address: ")); Serial.println(WiFi.localIP());
+  Serial.print(F("MAC address: ")); Serial.println(WiFi.macAddress());
   Serial.println(F(">>>"));
   return true;
 }

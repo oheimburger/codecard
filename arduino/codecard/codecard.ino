@@ -1,17 +1,17 @@
 /*
   codecard
-  
+
   Copyright (c) 2018 Noel Portugal.  All rights reserved.
-  
+
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
-  
+
   - Redistributions of source code must retain the above copyright notice,
     this list of conditions and the following disclaimer.
   - Redistributions in binary form must reproduce the above copyright notice,
     this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
-  
+
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -25,7 +25,7 @@
   POSSIBILITY OF SUCH DAMAGE.
 */
 
-// These dependencies need to be loaeded in this specific sequence. 
+// These dependencies need to be loaeded in this specific sequence.
 #include "config.h" // contains all dependencies includes and global variables
 #include "utils.h"
 #include "memory.h"
@@ -37,29 +37,28 @@
 #include "buttonEvents.h"
 #include "cli.h"
 
+ADC_MODE(ADC_VCC);
 
 void setup() {
   pinMode(WAKE_PIN, OUTPUT);
-  digitalWrite(WAKE_PIN, HIGH); //immediately set wake pin to HIGH to keep the chip enabled
-    
+  digitalWrite(WAKE_PIN, HIGH); // immediately set wake pin to HIGH to keep the chip enabled
   pinMode(BUTTON1_PIN, INPUT_PULLUP);
-  pinMode(BUTTON2_PIN, INPUT_PULLUP); 
-
+  pinMode(BUTTON2_PIN, INPUT_PULLUP);
   btn1State = digitalRead(BUTTON1_PIN);
   btn2State = digitalRead(BUTTON2_PIN);
   startTime = millis();
   delay(100);
-  
-  while (digitalRead(BUTTON1_PIN) == HIGH || digitalRead(BUTTON2_PIN) == HIGH){
+  while (digitalRead(BUTTON1_PIN) == HIGH || digitalRead(BUTTON2_PIN) == HIGH) {
     startTime++;
-    if (startTime > (100000 * 8)) { break; }
+    if (startTime > (100000 * 8)) {
+      break;
+    }
   }
   Serial.begin(BAUD_SPEED);
   display.init();
   display.setRotation(3);
   EEPROM.begin(eepromSize);
-
-  if (btn1State == HIGH && btn2State == HIGH){
+  if (btn1State == HIGH && btn2State == HIGH) {
     defaultScreen();
     help();
     wifiConnect();
@@ -72,21 +71,19 @@ void setup() {
     }
     return;
   }
-  
   if (startTime < 250000) {
-    if (btn1State == HIGH){
+    if (btn1State == HIGH) {
       pushButton("a", 1);
-    }else if (btn2State == HIGH){
+    } else if (btn2State == HIGH) {
       pushButton("b", 1);
     }
-  }else  {
-    if (btn1State == HIGH){
+  } else  {
+    if (btn1State == HIGH) {
       pushButton("a", 2);
-    }else if (btn2State == HIGH){
+    } else if (btn2State == HIGH) {
       pushButton("b", 2);
     }
   }
-
   shutdown();
 }
 
@@ -104,12 +101,9 @@ void loop() {
     evalInput(input);
     startTime = currentTime;
   }
-  
   currentTime = millis();
-  if (currentTime - startTime >= 1000 * 240)
-  {
+  if (currentTime - startTime >= 1000 * 240) {
     startTime = currentTime;
     shutdown();
   }
-  
 }

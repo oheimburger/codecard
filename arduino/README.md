@@ -10,7 +10,137 @@ We have included the source code here so you can modify you Code Card however yo
 
 ### Software
 In order to customise the Code Card firmware, you need to download the [Arduino IDE](https://www.arduino.cc/en/Main/Software) and configure it to use the Arduino core for ESP8266 WiFi chip.  
-The Arduino core for ESP8266 is a C++ based firmware. With this core, the ESP8266 CPU and its Wi-Fi components can be programmed like any other Arduino device using the Arduino IDE.  
+The Arduino core for ESP8266 is a C++ based firmware. With this core, the ESP8266 CPU and its Wi-Fi components can be programmed like any other Arduino device using the Arduino IDE.
+
+### Input Formats
+```
+{
+"template": "template1",
+"title": "",
+"subtitle": "",
+"body": "",
+"icon": "",
+"badge": "",
+"backgroundColor": "",
+"fingerprint": ""
+}
+```
+```
+{
+"template": "template5|template6",
+"title": "",
+"subtitle": "",
+"body": "",
+"backgroundColor": ""
+}
+```
+```
+{
+"template": "template7",
+"title": "",
+"subtitle": "",
+"backgroundColor": "",
+"backgroundImage": "",
+"fingerprint": ""
+}
+```
+```
+{
+"template": "template8",
+"backgroundColor": "",
+"backgroundImage": "",
+"fingerprint": ""
+}
+```
+```
+{
+"template": "template9",
+"title": "",
+"subtitle": "",
+"backgroundColor": ""
+}
+```
+```
+{
+"template": "template10",
+"title": "",
+"subtitle": "",
+"body": "",
+"backgroundColor": "",
+"barcode": ""
+}
+```
+```
+{
+"template": "template11",
+"title": "",
+"subtitle": "",
+"icon": "",
+"badge": "",
+"backgroundColor": "",
+"fingerprint": ""
+}
+```
+```
+{
+"template": "custom",
+"title": "",
+"titleFont": "",
+"titleX": "",
+"titleY": "",
+"subtitle": "",
+"subtitleFont": "",
+"subtitleX": "",
+"subtitleY": "",
+"body": "",
+"bodyFont": "",
+"bodyX": "",
+"bodyY": "",
+"icon": "",
+"badge": "",
+"iconX": "",
+"iconY": "",
+"iconSize": "",
+"backgroundColor": "",
+"backgroundImage": "",
+"fingerprint": ""
+}
+```
+```
+{
+"template": "configure",
+"buttona1": "URL",
+"methoda1": "GET|POST",
+"fingerprinta1": "XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX",
+"buttona2": "URL",
+"methoda2": "GET|POST",
+"fingerprinta2": "XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX",
+"buttonb1": "URL",
+"methodb1": "GET|POST",
+"fingerprintb1": "XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX",
+"buttonb2": "URL",
+"methodb2": "GET|POST",
+"fingerprintb2": "XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX",
+}
+```
+
+### Predefined Icon Names
+#### Icons Size 64
+```
+  "oracle", "champion", "duke", "jduchess", "ace", "fail", "mail", "twitter",
+  "01d", "02d", "03d", "04d", "09d", "10d", "11d", "13d", "50d",
+  "db", "java", "containers", "microservices", "opensource", "chatbots",
+  "blockchain", "javascript", "nighthacker"
+```
+#### Icons Size 128
+```
+  "oracle", "champion", "jduchess", "db", "java", "containers", "microservices",
+  "opensource", "chatbots", "blockchain", "javascript", "nighthacker"
+```
+#### Backgrounds
+```
+  "oracle", "codeone"
+```
 
 ### Code Card Source Code
 Download or `git clone https://github.com/cameronsenese/codecard.git` this project, and open the Arduino main file ([codecard.ino](https://github.com/cameronsenese/codecard/blob/master/arduino/codecard/codecard.ino)) to get started.
@@ -30,11 +160,11 @@ The following instruction describes the setup and configuration of the Arduino I
 3. Clone the `codecard` GitHub repository to obtain the source code: https://github.com/cameronsenese/codecard
 4. In the Arduino IDE, go to Preferences and set the “Additional Board Managers URLs to http://arduino.esp8266.com/stable/package_esp8266com_index.json
 5. Install esp8266 support: Tools | Board | Board Manager
-   - esp8266 by ESP8266 Community 2.4.2
+   - esp8266 by ESP8266 Community 2.6.3
 6. Install the required modules: Sketch | Include Libraries | Manage Libraries
-   - ArduinoJson by Benoit Blanchon version 5.13.3
-   - GxEPD2 by Jean-Marc Zingg version 1.1.0
-   - Adafruit GFX Library by Adafruit 1.4.8
+   - ArduinoJson by Benoit Blanchon version 6.14.1+
+   - GxEPD2 by Jean-Marc Zingg version 1.2.6+
+   - Adafruit GFX Library by Adafruit 1.7.5+
 7. Under Tools set the following settings:
    - Board: “Generic ESP8266 Module”
    - Upload Speed “115200”
