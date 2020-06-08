@@ -1,3 +1,4 @@
+// -*- C++ -*-
 /*
   codecard
 
@@ -24,9 +25,9 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
   POSSIBILITY OF SUCH DAMAGE.
 */
-
 // These dependencies need to be loaeded in this specific sequence.
 #include "config.h" // contains all dependencies includes and global variables
+#include "data.h"
 #include "utils.h"
 #include "memory.h"
 #include "wifi.h"
@@ -36,17 +37,20 @@
 #include "httpClient.h"
 #include "buttonEvents.h"
 #include "cli.h"
+#include "weather.h"
 
+// height x width 176x264
 ADC_MODE(ADC_VCC);
 
 void setup() {
   pinMode(WAKE_PIN, OUTPUT);
-  digitalWrite(WAKE_PIN, HIGH); // immediately set wake pin to HIGH to keep the chip enabled
+  // immediately set wake pin to HIGH to keep the chip enabled
+  digitalWrite(WAKE_PIN, HIGH);
   pinMode(BUTTON1_PIN, INPUT_PULLUP);
   pinMode(BUTTON2_PIN, INPUT_PULLUP);
-  btn1State = digitalRead(BUTTON1_PIN);
-  btn2State = digitalRead(BUTTON2_PIN);
-  startTime = millis();
+  int btn1State = digitalRead(BUTTON1_PIN);
+  int btn2State = digitalRead(BUTTON2_PIN);
+  unsigned long startTime = millis();
   delay(100);
   while (digitalRead(BUTTON1_PIN) == HIGH || digitalRead(BUTTON2_PIN) == HIGH) {
     startTime++;
@@ -57,7 +61,7 @@ void setup() {
   Serial.begin(BAUD_SPEED);
   display.init();
   display.setRotation(3);
-  EEPROM.begin(eepromSize);
+  EEPROM.begin(EEPROM_SIZE);
   if (btn1State == HIGH && btn2State == HIGH) {
     defaultScreen();
     help();

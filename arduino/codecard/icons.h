@@ -1,3 +1,4 @@
+// -*- C++ -*-
 /*
   icons.h
   Use http://javl.github.io/image2cpp/ to create bitmap to c code.

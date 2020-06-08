@@ -1,3 +1,4 @@
+// -*- C++ -*-
 /*
   buttonEvents.h
 */
@@ -7,11 +8,20 @@ void pushButton(String btnLabel, int btnFunction) {
   String typeOfPress = String(" - ") + ((btnFunction == 1) ? "short" : "long") + " pressed";
   String upperCaseBtnLabel = btnLabel;
   upperCaseBtnLabel.toUpperCase();
-  template9(upperCaseBtnLabel + typeOfPress , "please wait...", "white");
+  InputData data;
+  data.title = upperCaseBtnLabel + typeOfPress;
+  data.subtitle = "please wait...";
+  data.backgroundColor = "white";
+  template9(data);
   Serial.println("Button " + btnLabel + typeOfPress);
   Serial.println(F(">>>"));
   if (wifiConnect() == false) {
-    template3("No Internet", "", "Connect your card to the Code Card Terminal to configure your wifi settings.", "wifi", "", "white", "");
+    data.title = "No Internet";
+    data.subtitle = "";
+    data.body = "Connect your card to the Code Card Terminal to configure your wifi settings.";
+    data.icon = "wifi";
+    data.backgroundColor = "white";
+    template3(data);
     return;
   }
   String url = getFromMemory(button);
@@ -19,6 +29,7 @@ void pushButton(String btnLabel, int btnFunction) {
   String host = parseValue(url, '/', 2);
   String portString = parseValue(host, ':', 1);
   host = parseValue(host, ':', 0);
+#if 1
   if (protocol == "https:") {
     int port = (portString.length() != 0) ? portString.toInt() : 443;
     String response = secureRequest(host, port, url, btnLabel, btnFunction);
@@ -32,4 +43,13 @@ void pushButton(String btnLabel, int btnFunction) {
       parseJson(response);
     }
   }
+#else
+  if (protocol == "https:") {
+    int port = (portString.length() != 0) ? portString.toInt() : 443;
+    secureRequest(host, port, url, btnLabel, btnFunction);
+  } else {
+    int port = (portString.length() != 0) ? portString.toInt() : 80;
+    request(host, port, url, btnLabel, btnFunction);
+  }
+#endif
 }

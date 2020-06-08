@@ -1,8 +1,10 @@
+// -*- C++ -*-
 /*
   dataParser.h
 */
 
 void configure(String key, String value);
+void displayWeather(JsonVariant doc);
 
 String jsonValue(JsonDocument& jsonDoc, String member) {
   JsonVariant v = jsonDoc[member];
@@ -16,74 +18,95 @@ inline int intValue(String val) {
   return (val != "") ? val.toInt() : -1;
 }
 
-void parseJson(String jsonString) {
-  const size_t capacity = 500; // jsonString.length();
-  DynamicJsonDocument jsonDoc(capacity);
-  DeserializationError err = deserializeJson(jsonDoc, jsonString);
-  Serial.println(jsonString);
+inline float floatValue(String val) {
+  return (val != "") ? val.toFloat() : 0.0;
+}
+
+// void parseJson(String jsonString) {
+void parseJson(String& json) {
+  const size_t capacity = 2 * 1024;
+  DynamicJsonDocument doc(capacity);
+  DeserializationError err = deserializeJson(doc, json);
+  InputData data;
   if (err.code() != DeserializationError::Ok) {
     Serial.println(F("JSON parsing failed!"));
-    Serial.print(err.c_str()); Serial.print(" "); Serial.print(jsonString.length()); Serial.print(" "); Serial.println(jsonDoc.capacity());
+    Serial.print(err.c_str()); Serial.print(" "); Serial.print(json.length()); Serial.print(" "); Serial.println(doc.capacity());
     Serial.println(F(">>>"));
-    template1("Invalid response", err.c_str(), jsonString, "fail", "", "", "");
+    data.title = "Invalid response";
+    data.subtitle = err.c_str();
+    data.body = json;
+    data.icon = "fail";
+    template1(data);
     return;
   }
-  String templateName = jsonValue(jsonDoc, "template");
+  String templateName = jsonValue(doc, "template");
   if (templateName == "configure") {
     for (int i = 2; i <= 14; ++i) {
-      configure(keys[i], jsonValue(jsonDoc, keys[i]));
+      configure(KEYS[i], jsonValue(doc, KEYS[i]));
     }
     return;
   }
-  String title = jsonValue(jsonDoc, "title");
-  String subtitle = jsonValue(jsonDoc, "subtitle");
-  String body = jsonValue(jsonDoc, "bodytext");
-  String icon = jsonValue(jsonDoc, "icon");
-  String backgroundImage = jsonValue(jsonDoc, "backgroundImage");
-  String backgroundColor = jsonValue(jsonDoc, "backgroundColor");
-  String badge = jsonValue(jsonDoc, "badge");
-  String fingerprint = jsonValue(jsonDoc, "fingerprint");
-  String barcode = jsonValue(jsonDoc, "barcode");
+  if (templateName == "weather") {
+    JsonVariant wdoc = doc.as<JsonVariant>();
+    displayWeather(wdoc);
+    return;
+  }
+  data.name = templateName;
+  data.title = jsonValue(doc, "title");
+  data.subtitle = jsonValue(doc, "subtitle");
+  data.body = jsonValue(doc, "bodytext");
+  data.icon = jsonValue(doc, "icon");
+  data.backgroundImage = jsonValue(doc, "backgroundImage");
+  data.backgroundColor = jsonValue(doc, "backgroundColor");
+  data.badge = jsonValue(doc, "badge");
+  data.fingerprint = jsonValue(doc, "fingerprint");
+  data.barcode = jsonValue(doc, "barcode");
   if (templateName == "custom") {
-    String titleFont = jsonValue(jsonDoc, "titleFont");
-    String titleX = jsonValue(jsonDoc, "titleX");
-    String titleY = jsonValue(jsonDoc, "titleY");
-    String subtitleFont = jsonValue(jsonDoc, "subtitleFont");
-    String subtitleX = jsonValue(jsonDoc, "subtitleX");
-    String subtitleY = jsonValue(jsonDoc, "subtitleY");
-    String bodyFont = jsonValue(jsonDoc, "bodyFont");
-    String bodyX = jsonValue(jsonDoc, "bodyX");
-    String bodyY = jsonValue(jsonDoc, "bodyY");
-    String iconX = jsonValue(jsonDoc, "iconX");
-    String iconY = jsonValue(jsonDoc, "iconY");
-    String iconSize = jsonValue(jsonDoc, "iconSize");
-    custom(title, titleFont, intValue(titleX), intValue(titleY), subtitle, subtitleFont, intValue(subtitleX), intValue(subtitleY), body, bodyFont, intValue(bodyX), intValue(bodyY), icon, badge, intValue(iconX), intValue(iconY), intValue(iconSize), backgroundColor, backgroundImage, fingerprint);
+    data.titleFont = jsonValue(doc, "titleFont");
+    data.titleX = intValue(jsonValue(doc, "titleX"));
+    data.titleY = intValue(jsonValue(doc, "titleY"));
+    data.subtitleFont = jsonValue(doc, "subtitleFont");
+    data.subtitleX = intValue(jsonValue(doc, "subtitleX"));
+    data.subtitleY = intValue(jsonValue(doc, "subtitleY"));
+    data.bodyFont = jsonValue(doc, "bodyFont");
+    data.bodyX = intValue(jsonValue(doc, "bodyX"));
+    data.bodyY = intValue(jsonValue(doc, "bodyY"));
+    data.iconX = intValue(jsonValue(doc, "iconX"));
+    data.iconY = intValue(jsonValue(doc, "iconY"));
+    data.iconSize = intValue(jsonValue(doc, "iconSize"));
+    custom(data);
   }
   saveToMemory(getKeyIndex("showdefaultscreen"), "false");
   if (templateName == "template1") {
-    template1(title, subtitle, body, icon, badge, backgroundColor, fingerprint);
+    template1(data);
   } else if (templateName == "template2") {
-    template2(title, subtitle, body, icon, badge, backgroundColor, fingerprint);
+    template2(data);
   } else if (templateName == "template3") {
-    template3(title, subtitle, body, icon, badge, backgroundColor, fingerprint);
+    template3(data);
   } else if (templateName == "template4") {
-    template4(title, subtitle, body, icon, badge, backgroundColor, fingerprint);
+    template4(data);
   } else if (templateName == "template5") {
-    template5(title, subtitle, body, backgroundColor);
+    template5(data);
   } else if (templateName == "template6") {
-    template6(title, subtitle, body, backgroundColor);
+    template6(data);
   } else if (templateName == "template7") {
-    template7(title, subtitle, backgroundColor, backgroundImage, fingerprint);
+    template7(data);
   } else if (templateName == "template8") {
-    template8(backgroundColor, backgroundImage, fingerprint);
+    template8(data);
   } else if (templateName == "template9") {
-    template9(title, subtitle, backgroundColor);
+    template9(data);
   } else if (templateName == "template10") {
-    template10(title, subtitle, body, backgroundColor, barcode);
+    template10(data);
   } else if (templateName == "template11") {
-    template11(title, subtitle, icon, badge, backgroundColor, fingerprint);
+    template11(data);
+  } else if (templateName == "template11") {
+    custom(data);
   } else {
-    template1("Invalid response", "Please verify JSON", jsonString, "fail", "", "", "");
+    data.title = "Invalid response";
+    data.subtitle = "Please verify JSON";
+    data.body = json;
+    data.icon = "fail";
+    template1(data);
     saveToMemory(getKeyIndex("showdefaultscreen"), "true");
   }
 }
@@ -149,7 +172,7 @@ void displayImageFromUrlTest(WiFiClient& client, int16_t x, int16_t y, bool conn
 void displayImageFromUrl(WiFiClient& client, int16_t x, int16_t y, bool connection_ok, bool with_color) {
   bool valid = false; // valid format to be handled
   bool flip = true; // bitmap is stored bottom-to-top
-  uint32_t startTime = millis();
+  unsigned long startTime = millis();
   display.setRotation(0);
   // Parse BMP header
   if (read16(client) == 0x4D42) {
@@ -191,7 +214,7 @@ void displayImageFromUrl(WiFiClient& client, int16_t x, int16_t y, bool connecti
       // Serial.print("y: "); Serial.println(y);
       // Serial.print("display.width(): "); Serial.println(display.width());
       // Serial.print("display.height(): "); Serial.println(display.height());
-      if (w < max_row_width) {
+      if (w < MAX_ROW_WIDTH) {
         // handle with direct drawing
         valid = true;
         uint8_t bitmask = 0xFF;

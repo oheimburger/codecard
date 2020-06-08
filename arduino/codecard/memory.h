@@ -1,11 +1,12 @@
+// -*- C++ -*-
 /*
   memory.h
 */
 
 int getKeyIndex(String val) {
   int ret = -1;
-  for (int i = 0; i < keysLen; i++) {
-    if (String(keys[i]) == val) {
+  for (int i = 0; i < KEYS_LEN; i++) {
+    if (String(KEYS[i]) == val) {
       ret = i;
       break;
     }
@@ -15,19 +16,19 @@ int getKeyIndex(String val) {
 
 String getFromMemory(int addr) {
   char arrayToStore[100];
-  if (EEPROM.read(addr * maxValue) == 255) {
+  if (EEPROM.read(addr * MAX_VALUE) == 255) {
     return "";
   }
-  EEPROM.get(addr * maxValue, arrayToStore);
+  EEPROM.get(addr * MAX_VALUE, arrayToStore);
   String ret(arrayToStore);
   return ret;
 }
 
 String getFromMemory(String key) {
   String ret = "";
-  for (int i = 0; i < keysLen; i++) {
-    if (String(keys[i]) == key) {
-      String key = keys[i];
+  for (int i = 0; i < KEYS_LEN; i++) {
+    if (String(KEYS[i]) == key) {
+      String key = KEYS[i];
       ret = getFromMemory(i);
       if (key.indexOf("method") > -1 && ret == "") {
         ret = "GET";
@@ -44,6 +45,6 @@ String getFromMemory(String key) {
 void saveToMemory(int addr, String val) {
   char arrayToStore[100];
   val.toCharArray(arrayToStore, val.length() + 1) ;
-  EEPROM.put(addr * maxValue, arrayToStore);
+  EEPROM.put(addr * MAX_VALUE, arrayToStore);
   EEPROM.commit();
 }

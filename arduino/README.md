@@ -106,6 +106,7 @@ The Arduino core for ESP8266 is a C++ based firmware. With this core, the ESP826
 "fingerprint": ""
 }
 ```
+Template configure
 ```
 {
 "template": "configure",
@@ -121,6 +122,18 @@ The Arduino core for ESP8266 is a C++ based firmware. With this core, the ESP826
 "buttonb2": "URL",
 "methodb2": "GET|POST",
 "fingerprintb2": "XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX",
+}
+```
+Template weather
+```
+{
+  "template": "weather",
+  "current": {
+    // response of current weather
+  },
+  "forecast": {
+   // response of forecast api
+  }
 }
 ```
 

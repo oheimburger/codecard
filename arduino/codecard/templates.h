@@ -1,10 +1,12 @@
+// -*- C++ -*-
 /*
   template.h
 */
 
 void imageFromUrl(String url, int16_t x, int16_t y, String fingerprint ="", bool with_color =true);
 
-void custom(String title, String titleFont, int titleX, int titleY, String subtitle, String subtitleFont, int subtitleX, int subtitleY, String body, String  bodyFont, int bodyX, int bodyY, String icon, String badge, int iconX, int iconY, int iconSize, String backgroundColor, String backgroundImage, String fingerprint);
+// void custom(String title, String titleFont, int titleX, int titleY, String subtitle, String subtitleFont, int subtitleX, int subtitleY, String body, String  bodyFont, int bodyX, int bodyY, String icon, String badge, int iconX, int iconY, int iconSize, String backgroundColor, String backgroundImage, String fingerprint);
+void custom(InputData& data);
 
 inline bool isLocalIcon(String icon) {
   return (icon.length() > 0 && icon.indexOf("http") == -1);
@@ -26,7 +28,8 @@ void drawBarcode39(int x, int y, int width, int height, int pitch, String barcod
       bk = !bk;
       int bw = (binCode.charAt(j) == '0') ? pitch : pitch * 2;
       display.fillRect(c, y, bw, height, color);
-      c = c + bw;
+      // c = c + bw;
+      c += bw;
     }
     // Gap
     display.fillRect(c, y, pitch, height, GxEPD_WHITE);
@@ -174,119 +177,173 @@ void drawBadge(int x, int y, int radius, String badge, long color) {
   display.setTextColor(circleColor);
 }
 
-void template1(String title, String subtitle, String body, String icon, String badge, String backgroundColor, String fingerprint) {
-  int iconX = 0;
-  int iconY = 0;
-  int iconSize = 64;
-  title = textFits(title, 16);
-  subtitle = textFits(subtitle, 20);
-  body = textFits(body, 170);
-  custom(title, "FreeSansBold12pt", 72, 25, subtitle, "FreeSans9pt", 73, 45, body, "FreeSans9pt", 0, 80, icon, badge, iconX, iconY, iconSize, backgroundColor, "", fingerprint);
+void template1(InputData& data) {
+  data.iconX = 0;
+  data.iconY = 0;
+  data.iconSize = 64;
+  data.title = textFits(data.title, 16);
+  data.subtitle = textFits(data.subtitle, 20);
+  data.body = textFits(data.body, 170);
+  data.titleFont = FREE_SANS_BOLD_12;
+  data.titleX = 72;
+  data.titleY = 25;
+  data.subtitleFont = FREE_SANS_9;
+  data.subtitleX = 73;
+  data.subtitleY = 45;
+  data.bodyFont = FREE_SANS_9;
+  data.bodyX = 0;
+  data.bodyY = 80;
+  custom(data);
 }
 
-void template2(String title, String subtitle, String body, String icon, String badge, String backgroundColor, String fingerprint) {
-  title = textFits(title, 22);
-  subtitle = textFits(subtitle, 26);
-  body = textFits(body, 105);
-  int iconSize = 64;
-  int iconX = 0;
-  int iconY = 0;
+void template2(InputData& data) {
+  data.title = textFits(data.title, 22);
+  data.subtitle = textFits(data.subtitle, 26);
+  data.body = textFits(data.body, 105);
+  data.iconSize = 64;
+  data.iconX = 0;
+  data.iconY = 0;
   int middle = display.width() / 2 - 38;
-  if (badge != "") {
-    iconX = middle;
-    iconY = 40;
-  } else if (isLocalIcon(icon)) {
-    iconX = middle;
-    iconY = 42;
+  if (data.badge != "") {
+    data.iconX = middle;
+    data.iconY = 40;
+  } else if (isLocalIcon(data.icon)) {
+    data.iconX = middle;
+    data.iconY = 42;
   } else {
-    iconX = display.height() / 2 - 42;
-    iconY = middle;
+    data.iconX = display.height() / 2 - 42;
+    data.iconY = middle;
   }
-  custom(title, "FreeSansBold12pt", 0, 20, subtitle, "FreeSans9pt", 0, 38, body, "FreeSans9pt", 0, 125, icon, badge, iconX, iconY, iconSize, backgroundColor, "", fingerprint);
+  data.titleFont = FREE_SANS_BOLD_12;
+  data.titleX = 0;
+  data.titleY = 20;
+  data.subtitleFont = FREE_SANS_9;
+  data.subtitleX = 0;
+  data.subtitleY = 38;
+  data.bodyFont = FREE_SANS_9;
+  data.bodyX = 0;
+  data.bodyY = 125;
+  custom(data);
 }
 
-void template3(String title, String subtitle, String body, String icon, String badge, String backgroundColor, String fingerprint) {
-  title = textFits(title, 16);
-  subtitle = textFits(subtitle, 24);
-  body = textFits(body, 24);
-  int iconX = display.width() - 68;
-  int iconY = 0;
-  int iconSize = 64;
-  if (!isLocalIcon(icon)) {
-    iconX = 0;
-    iconY = -display.width() + 64;
+void template3(InputData& data) {
+  data.title = textFits(data.title, 16);
+  data.subtitle = textFits(data.subtitle, 24);
+  data.body = textFits(data.body, 24);
+  data.iconX = display.width() - 68;
+  data.iconY = 0;
+  data.iconSize = 64;
+  if (!isLocalIcon(data.icon)) {
+    data.iconX = 0;
+    data.iconY = -display.width() + 64;
   }
-  custom(title, "FreeSansBold12pt", 0, 25, subtitle, "FreeSans9pt", 1, 43, body, "FreeSans9pt", 0, 80, icon, badge, iconX, iconY, iconSize, backgroundColor, "", fingerprint);
+  data.titleFont = FREE_SANS_BOLD_12;
+  data.titleX = 0;
+  data.titleY = 25;
+  data.subtitleFont = FREE_SANS_9;
+  data.subtitleX = 1;
+  data.subtitleY = 43;
+  data.bodyFont = FREE_SANS_9;
+  data.bodyX = 0;
+  data.bodyY = 80;
+  custom(data);
 }
 
-void template4(String title, String subtitle, String body, String icon, String badge, String backgroundColor, String fingerprint) {
-  title = textFits(title, 20);
-  subtitle = textFits(subtitle, 32);
-  body = textFits(body, 170);
-  int iconX = display.width() - 68;
-  int iconY = display.height() - 68;
-  int iconSize = 64;
-  if (!isLocalIcon(icon)) {
-    iconX = display.height() - 64;
-    iconY = -display.width() + 64;
+void template4(InputData& data) {
+  data.title = textFits(data.title, 20);
+  data.subtitle = textFits(data.subtitle, 32);
+  data.body = textFits(data.body, 170);
+  data.iconX = display.width() - 68;
+  data.iconY = display.height() - 68;
+  data.iconSize = 64;
+  if (!isLocalIcon(data.icon)) {
+    data.iconX = display.height() - 64;
+    data.iconY = -display.width() + 64;
   }
-  custom(title, "FreeSansBold12pt", 0, 25, subtitle, "FreeSans9pt", 0, 43, body, "FreeSans9pt", 0, 70, icon, badge, iconX, iconY, iconSize, backgroundColor, "", fingerprint);
+  data.titleFont = FREE_SANS_BOLD_12;
+  data.titleX = 0;
+  data.titleY = 25;
+  data.subtitleFont = FREE_SANS_9;
+  data.subtitleX = 0;
+  data.subtitleY = 43;
+  data.bodyFont = FREE_SANS_9;
+  data.bodyX = 0;
+  data.bodyY = 70;
+  custom(data);
 }
 
-void template5(String title, String subtitle, String body, String backgroundColor) {
-  title = textFits(title, 15);
-  subtitle = textFits(subtitle, 25);
-  body = textFits(body, 170);
-  int titleX = (display.width() / 2 - title.length() / 2 * 18) - 10;
-  int subtitleX = (display.width() / 2 - subtitle.length() / 2 * 9) - 12;
-  custom(title, "FreeSansBold18pt", titleX, 25, subtitle, "FreeSansBold9pt", subtitleX, 45, body, "FreeSans9pt", 0, 72, "", "", -1, -1, -1, backgroundColor, "", "");
+void template5(InputData& data) {
+  data.title = textFits(data.title, 15);
+  data.subtitle = textFits(data.subtitle, 25);
+  data.body = textFits(data.body, 170);
+  data.titleFont = FREE_SANS_BOLD_18;
+  data.titleX = (display.width() / 2 - data.title.length() / 2 * 18) - 10;
+  data.titleY = 25;
+  data.subtitleFont = FREE_SANS_BOLD_9;
+  data.subtitleX = (display.width() / 2 - data.subtitle.length() / 2 * 9) - 12;
+  data.subtitleY = 45;
+  data.bodyFont = FREE_SANS_9;
+  data.bodyX = 0;
+  data.bodyY = 72;
+  custom(data);
 }
 
-void template6(String title, String subtitle, String body, String backgroundColor) {
-  title = textFits(title, 15);
-  subtitle = textFits(subtitle, 25);
-  body = textFits(body, 80);
-  int titleX = (display.width() / 2 - title.length() / 2 * 18) - 10;
-  int subtitleX = (display.width() / 2 - subtitle.length() / 2 * 9) - 12;
-  custom(title, "FreeSansBold18pt", titleX, 80, subtitle, "FreeSansBold9pt", subtitleX, 100, body, "FreeSans9pt", 1, 146, "", "", -1, -1, -1, backgroundColor, "", "");
+void template6(InputData& data) {
+  data.title = textFits(data.title, 15);
+  data.subtitle = textFits(data.subtitle, 25);
+  data.body = textFits(data.body, 80);
+  data.titleFont = FREE_SANS_BOLD_18;
+  data.titleX = (display.width() / 2 - data.title.length() / 2 * 18) - 10;
+  data.titleY = 80;
+  data.subtitleFont = FREE_SANS_BOLD_9;
+  data.subtitleX = (display.width() / 2 - data.subtitle.length() / 2 * 9) - 12;
+  data.subtitleY = 100;
+  data.bodyFont = FREE_SANS_9;
+  data.bodyX = 1;
+  data.bodyY = 146;
+  custom(data);
 }
 
 // Minimalist - No Icon
-void template7(String title, String subtitle, String backgroundColor, String backgroundImage, String fingerprint) {
-  if (backgroundImage == "") {
-    backgroundImage = "oracle";
+void template7(InputData& data) {
+  if (data.backgroundImage == "") {
+    data.backgroundImage = "oracle";
   }
-  title = textFits(title, 22);
-  subtitle = textFits(subtitle, 105);
-  int subtitleX = display.width() / 2 - subtitle.length() / 2 * 9;
-  int subtitleY = display.height() - 15;
-  custom(title, "FreeSansBold12pt", 0, 20, subtitle, "FreeSans9pt", subtitleX, subtitleY, "", "", -1, -1, "", "", -1, -1, -1, backgroundColor, backgroundImage, fingerprint);
+  data.title = textFits(data.title, 22);
+  data.titleFont = FREE_SANS_BOLD_12;
+  data.titleX = 0;
+  data.titleY = 20;
+  data.subtitle = textFits(data.subtitle, 105);
+  data.subtitleFont = FREE_SANS_9;
+  data.subtitleX = display.width() / 2 - data.subtitle.length() / 2 * 9;
+  data.subtitleY = display.height() - 15;
+  custom(data);
 }
 
 // Minimalist - No Icon
-void template8(String backgroundColor, String backgroundImage, String fingerprint) {
-  long bgColor = (backgroundColor == "white") ? GxEPD_WHITE : GxEPD_BLACK;
-  long txtColor = (backgroundColor == "white") ? GxEPD_BLACK : GxEPD_WHITE;
-  if (backgroundImage == "") {
-    backgroundImage = "oracle";
+void template8(InputData& data) {
+  long bgColor = (data.backgroundColor == COLOR_WHITE) ? GxEPD_WHITE : GxEPD_BLACK;
+  long txtColor = (data.backgroundColor == COLOR_WHITE) ? GxEPD_BLACK : GxEPD_WHITE;
+  if (data.backgroundImage == "") {
+    data.backgroundImage = "oracle";
   }
   display.setFullWindow();
   display.firstPage();
   do {
-    if (backgroundImage.indexOf("http") == -1) {
+    if (data.backgroundImage.indexOf("http") == -1) {
       display.fillScreen(txtColor);
-      drawBackground(0, 0, backgroundImage, bgColor);
+      drawBackground(0, 0, data.backgroundImage, bgColor);
     }
   } while (display.nextPage());
-  if (backgroundImage.indexOf("http") > -1) {
-    imageFromUrl(backgroundImage, 0, 0, fingerprint, false);
+  if (data.backgroundImage.indexOf("http") > -1) {
+    imageFromUrl(data.backgroundImage, 0, 0, data.fingerprint, false);
   }
 }
 
 // status
-void template9(String title, String subtitle, String backgroundColor) {
-  long bgColor = (backgroundColor == "white") ? GxEPD_WHITE : GxEPD_BLACK;
-  long txtColor = (backgroundColor == "white") ? GxEPD_BLACK : GxEPD_WHITE;
+void template9(InputData& data) {
+  long bgColor = (data.backgroundColor == COLOR_WHITE) ? GxEPD_WHITE : GxEPD_BLACK;
+  long txtColor = (data.backgroundColor == COLOR_WHITE) ? GxEPD_BLACK : GxEPD_WHITE;
   display.setFullWindow();
   // display.setPartialWindow(0, 0, display.width(), display.height());
   display.firstPage();
@@ -295,17 +352,17 @@ void template9(String title, String subtitle, String backgroundColor) {
     display.setTextColor(GxEPD_BLACK);
     display.setFont(&FreeSansBold9pt7b);
     display.setCursor(25, 80);
-    display.println(textFits(title, 50));
+    display.println(textFits(data.title, 50));
     display.setFont(&FreeMono9pt7b);
     display.setCursor(25, 100);
-    display.println(textFits(subtitle, 50));
+    display.println(textFits(data.subtitle, 50));
   } while (display.nextPage());
 }
 
 // barcode template 43 max chars
-void template10(String title, String subtitle, String body, String backgroundColor, String barcode) {
-  long bgColor = (backgroundColor == "white") ? GxEPD_WHITE : GxEPD_BLACK;
-  long txtColor = (backgroundColor == "white") ? GxEPD_BLACK : GxEPD_WHITE;
+void template10(InputData& data) {
+  long bgColor = (data.backgroundColor == COLOR_WHITE) ? GxEPD_WHITE : GxEPD_BLACK;
+  long txtColor = (data.backgroundColor == COLOR_WHITE) ? GxEPD_BLACK : GxEPD_WHITE;
   display.setFullWindow();
   display.firstPage();
   do {
@@ -313,87 +370,94 @@ void template10(String title, String subtitle, String body, String backgroundCol
     display.setTextColor(txtColor);
     display.setFont(&FreeSansBold18pt7b);
     display.setCursor(0, 30);
-    display.println(textFits(title, 15));
+    display.println(textFits(data.title, 15));
     display.setFont(&FreeSansBold9pt7b);
     display.setCursor(1, 50);
-    display.println(textFits(subtitle, 26));
+    display.println(textFits(data.subtitle, 26));
     display.setFont(&FreeSans9pt7b);
     display.setCursor(0, 77);
-    display.println(textFits(body, 65));
-    String formattedBarcode = String("@" + barcode + "#");
+    display.println(textFits(data.body, 65));
+    String formattedBarcode = String("@" + data.barcode + "#");
     drawBarcode39(50, 110, display.width(), 50, 1.9, formattedBarcode);
     display.setFont(&FreeMono9pt7b);
-    int barcodeX = display.width() / 2 - barcode.length() / 2 * 5;
+    int barcodeX = display.width() / 2 - data.barcode.length() / 2 * 5;
     display.setCursor(12, 172);
-    display.println(barcode);
+    display.println(data.barcode);
   } while (display.nextPage());
 }
 
-void template11(String title, String subtitle, String icon, String badge, String backgroundColor, String fingerprint) {
-  int titleX = 126 - (title.length() / 2 * 12);
-  int titleY = 150;
-  int subtitleX = 126 - (subtitle.length() / 2 * 9);
-  int subtitleY = 170;
-  int iconX = 0;
-  int iconY = 0;
-  if (!isLocalIcon(icon) && badge == "") {
-    iconX = display.height() / 2 - 64;
-    iconY = display.width() / 2 - 68;
+void template11(InputData& data) {
+  data.titleX = 126 - (data.title.length() / 2 * 12);
+  data.titleY = 150;
+  data.subtitleX = 126 - (data.subtitle.length() / 2 * 9);
+  data.subtitleY = 170;
+  data.iconX = 0;
+  data.iconY = 0;
+  if (!isLocalIcon(data.icon) && data.badge == "") {
+    data.iconX = display.height() / 2 - 64;
+    data.iconY = display.width() / 2 - 68;
   }
-  title = textFits(title, 22);
-  subtitle = textFits(subtitle, 22);
-  custom(title, "FreeSansBold12pt", titleX, titleY, subtitle, "FreeSans9pt", subtitleX, subtitleY, "", "", -1, -1, icon, badge, iconX, iconY, 128, backgroundColor, "", fingerprint);
+  data.title = textFits(data.title, 22);
+  data.titleFont = FREE_SANS_BOLD_12;
+  data.subtitle = textFits(data.subtitle, 22);
+  data.subtitleFont = FREE_SANS_9;
+  data.iconSize = 128;
+  custom(data);
 }
 
-void custom(String title, String titleFont, int titleX, int titleY, String subtitle, String subtitleFont, int subtitleX, int subtitleY, String body, String  bodyFont, int bodyX, int bodyY, String icon, String badge, int iconX, int iconY, int iconSize, String backgroundColor, String backgroundImage, String fingerprint) {
-  long bgColor = (backgroundColor == "black") ? GxEPD_BLACK : GxEPD_WHITE;
-  long txtColor = (backgroundColor == "black") ? GxEPD_WHITE : GxEPD_BLACK;
+void custom(InputData& data) {
+  long bgColor = (data.backgroundColor == COLOR_BLACK) ? GxEPD_BLACK : GxEPD_WHITE;
+  long txtColor = (data.backgroundColor == COLOR_BLACK) ? GxEPD_WHITE : GxEPD_BLACK;
   display.setFullWindow();
   display.firstPage();
   do {
-    if (backgroundImage != "" && backgroundImage.indexOf("http") == -1) {
+    if (data.backgroundImage != "" && data.backgroundImage.indexOf("http") == -1) {
       display.fillScreen(txtColor);
-      drawBackground(0, 0, backgroundImage, bgColor);
+      drawBackground(0, 0, data.backgroundImage, bgColor);
     } else {
       display.fillScreen(bgColor);
     }
     display.setTextColor(txtColor);
-    if (badge != "") {
-      drawBadge(iconX, iconY, iconSize / 2, badge, bgColor);
-    } else if (isLocalIcon(icon) && badge == "") {
-      if (iconSize == 64) {
-	drawIcon64(iconX, iconY, icon, txtColor);
-      } else if (iconSize == 128) {
-	drawIcon128(iconX, iconY, icon, txtColor);
+    if (data.badge != "") {
+      drawBadge(data.iconX, data.iconY, data.iconSize / 2, data.badge, bgColor);
+    } else if (isLocalIcon(data.icon) && data.badge == "") {
+      if (data.iconSize == 64) {
+	drawIcon64(data.iconX, data.iconY, data.icon, txtColor);
+      } else if (data.iconSize == 128) {
+	drawIcon128(data.iconX, data.iconY, data.icon, txtColor);
       }
     }
     // title
-    if (titleFont == "FreeSansBold12pt") {
-      display.setFont(&FreeSansBold12pt7b);
-    } else if (titleFont == "FreeSansBold18pt") {
-      display.setFont(&FreeSansBold18pt7b);
+    if (data.title != "") {
+      if (data.titleFont == FREE_SANS_BOLD_12) {
+	display.setFont(&FreeSansBold12pt7b);
+      } else if (data.titleFont == FREE_SANS_BOLD_18) {
+	display.setFont(&FreeSansBold18pt7b);
+      }
+      display.setCursor(data.titleX, data.titleY);
+      display.println(data.title);
     }
-    display.setCursor(titleX, titleY);
-    display.println(title);
     // subtitle
-    if (subtitleFont == "FreeSans9pt") {
-      display.setFont(&FreeSans9pt7b);
-    } else if (subtitleFont == "FreeSansBold9pt") {
-      display.setFont(&FreeSansBold9pt7b);
+    if (data.subtitle != "") {
+      if (data.subtitleFont == FREE_SANS_9) {
+	display.setFont(&FreeSans9pt7b);
+      } else if (data.subtitleFont == FREE_SANS_BOLD_9) {
+	display.setFont(&FreeSansBold9pt7b);
+      }
+      display.setCursor(data.subtitleX, data.subtitleY);
+      display.println(data.subtitle);
     }
-    display.setCursor(subtitleX, subtitleY);
-    display.println(subtitle);
     // body
-    if (body != "") {
-      if (bodyFont == "FreeSans9pt") {
+    if (data.body != "") {
+      if (data.bodyFont == FREE_SANS_9) {
 	display.setFont(&FreeSans9pt7b);
       }
-      display.setCursor(bodyX, bodyY);
-      display.println(body);
+      display.setCursor(data.bodyX, data.bodyY);
+      display.println(data.body);
     }
   } while (display.nextPage());
-  if (!isLocalIcon(icon) && badge == "") {
-    imageFromUrl(icon, iconX, iconY, fingerprint, false);
+  if (!isLocalIcon(data.icon) && data.badge == "") {
+    imageFromUrl(data.icon, data.iconX, data.iconY, data.fingerprint, false);
   }
 }
 
@@ -405,7 +469,14 @@ void defaultScreen() {
   display.firstPage();
   do {
     display.fillScreen(GxEPD_WHITE);
-    display.drawInvertedBitmap(0, 0, oracle264, display.width(), display.height(), GxEPD_BLACK);
+    display.drawInvertedBitmap(0, 0, oracle264, display.width(),
+			       display.height(), GxEPD_BLACK);
   } while (display.nextPage());
-  template10(String(projectName) + " v" + String(projectVersion), projectAuthor, projectSite, "white", mac);
+  InputData data;
+  data.title = String(PROJECT_NAME) + " " + String(PROJECT_VERSION);
+  data.subtitle = PROJECT_AUTHOR;
+  data.body = PROJECT_SITE;
+  data.backgroundColor = "white";
+  data.barcode = mac;
+  template10(data);
 }

@@ -1,12 +1,13 @@
+// -*- C++ -*-
 /*
   cli.h
 */
 
 void help() {
   Serial.println(F("***************************************************************************************"));
-  Serial.println("  " + String(projectName) + " v" + String(projectVersion));
-  Serial.println("  " + String(projectAuthor));
-  Serial.println("  " + String(projectSite));
+  Serial.println("  " + String(PROJECT_NAME) + " " + String(PROJECT_VERSION));
+  Serial.println("  " + String(PROJECT_AUTHOR));
+  Serial.println("  " + String(PROJECT_SITE));
   Serial.println(F("***************************************************************************************"));
   Serial.println(F("Commands:"));
   Serial.println(F("  ls                Show all stored key/values"));
@@ -29,16 +30,16 @@ void help() {
   Serial.println();
   Serial.println(F("Available keys:"));
   Serial.print(F("  "));
-  for (int i = 0; i < keysLen; i++) {
+  for (int i = 0; i < KEYS_LEN; i++) {
     if (i == 8) {
       Serial.println(F(""));
       Serial.print(F("  "));
     }
-    if (keys[i] == "initalsetup") {
+    if (KEYS[i] == "initalsetup") {
       continue;
     }
-    Serial.print(keys[i]);
-    if (i != keysLen - 1) {
+    Serial.print(KEYS[i]);
+    if (i != KEYS_LEN - 1) {
       Serial.print(F(", "));
     }
   }
@@ -57,8 +58,8 @@ void batteryStatus() {
 }
 
 void listAll() {
-  for (int i = 0; i < keysLen; i++) {
-    String key = keys[i];
+  for (int i = 0; i < KEYS_LEN; i++) {
+    String key = KEYS[i];
     if (key.indexOf("initalsetup") > -1) {
       continue;
     }
@@ -75,7 +76,7 @@ void listAll() {
 }
 
 void eraseAll() {
-  for (int i = 0; i < eepromSize; i++) {
+  for (int i = 0; i < EEPROM_SIZE; i++) {
     EEPROM.write(i, 0);
   }
   EEPROM.commit();
@@ -85,20 +86,20 @@ void eraseAll() {
 }
 
 void loadDefaults() {
-  for (int i = 0; i < keysLen; i++) {
-    String key = keys[i];
+  for (int i = 0; i < KEYS_LEN; i++) {
+    String key = KEYS[i];
     String val = "";
     if (key.indexOf("ssid") > -1 && val == "") {
-      saveToMemory(i, defaultSSID);
+      saveToMemory(i, DEFAULT_SSID);
     }
     if (key.indexOf("password") > -1 && val == "") {
-      saveToMemory(i, defaultPassword);
+      saveToMemory(i, DEFAULT_PASSWORD);
     }
     if (key.indexOf("button") > -1 && val == "") {
-      saveToMemory(i, defaultUrl);
+      saveToMemory(i, DEFAULT_URL);
     }
     if (key.indexOf("fingerprint") > -1 && val == "") {
-      saveToMemory(i, defaultFingerprint);
+      saveToMemory(i, DEFAULT_FINGERPRINT);
     }
   }
   saveToMemory(getKeyIndex("initalsetup"), "false");
