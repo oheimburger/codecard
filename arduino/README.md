@@ -156,7 +156,7 @@ Template weather
 ```
 
 ### Code Card Source Code
-Download or `git clone https://github.com/cameronsenese/codecard.git` this project, and open the Arduino main file ([codecard.ino](https://github.com/cameronsenese/codecard/blob/master/arduino/codecard/codecard.ino)) to get started.
+Download or `git clone https://github.com/oheimburger/codecard.git` this project, and open the Arduino main file ([codecard.ino](https://github.com/oheimburger/codecard/blob/master/arduino/codecard/codecard.ino)) to get started.
 
 - /arduino contains the source code for the Code Card
 - /arduino/bin contains a precompiled image of the Code Card firmware
@@ -170,7 +170,7 @@ The following instruction describes the setup and configuration of the Arduino I
 
 1. Install the Arduino IDE version 1.8.8: https://www.arduino.cc/en/Main/Software
 2. Install the serial driver for the ESP-12F Wi-Fi chip: https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
-3. Clone the `codecard` GitHub repository to obtain the source code: https://github.com/cameronsenese/codecard
+3. Clone the `codecard` GitHub repository to obtain the source code: https://github.com/oheimburger/codecard
 4. In the Arduino IDE, go to Preferences and set the “Additional Board Managers URLs to http://arduino.esp8266.com/stable/package_esp8266com_index.json
 5. Install esp8266 support: Tools | Board | Board Manager
    - esp8266 by ESP8266 Community 2.6.3
