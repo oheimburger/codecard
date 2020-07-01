@@ -43,3 +43,5 @@ We partnered with [Squarofumi](http://www.sqfmi.com/), creators of [Badgy](https
 
 ![](images/badgy.jpg)
 
+# About this Fork
+In this fork the Arduino code has been refactored and updated to use the latest version of ArduinoJson. It supports a new template mode (custom) which allows more control in arranging the parts (title, subtitle, icon, background, badge). custom is used as the base implementation for most of the standard templates.
